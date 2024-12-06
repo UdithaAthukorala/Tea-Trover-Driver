@@ -12,6 +12,8 @@ import '../controllers/controllers.dart';
 import '../global.dart';
 import '../models/user_models.dart';
 import '../widgets/progress_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tea_trover_driver/screens/phonenumberverification.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -95,6 +97,44 @@ class _ProfileState extends State<Profile> {
 
   }
 
+  void logOut(){
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Confirm Logout"),
+        content: const Text("Are you sure you want to log out?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close the dialog
+            },
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close the dialog
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext context) => ProgressDialog()
+              );
+
+              FirebaseAuth.instance.signOut().then((onValue){
+                Navigator.pop(context);
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Phonenumberverification(),), (route) => false,);
+
+              }).catchError((onError){
+                Navigator.pop(context);
+                Fluttertoast.showToast(msg: onError.message);
+              });
+            },
+            child: const Text("Logout"),
+          ),
+        ],
+      ),
+    );
+
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -123,7 +163,7 @@ class _ProfileState extends State<Profile> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("My Profile",
+                  Text("My Profile driver",
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold
@@ -171,15 +211,22 @@ class _ProfileState extends State<Profile> {
                               children: [
 
                                 GestureDetector(
-                                  child: CircleAvatar(
-                                    backgroundImage:  userModelCurrrentInfo!.profilepic !=null? _profilePhoto!=null?FileImage(_profilePhoto!):NetworkImage(userModelCurrrentInfo!.profilepic!):AssetImage("assets/imgs/profile.png"),
-                                    backgroundColor: Colors.white,
-                                    radius: 50,
+                                  child: Center( // Ensures the CircleAvatar is centered
+                                    child: CircleAvatar(
+                                      backgroundImage: userModelCurrrentInfo!.profilepic != null
+                                          ? _profilePhoto != null
+                                          ? FileImage(_profilePhoto!)
+                                          : NetworkImage(userModelCurrrentInfo!.profilepic!) as ImageProvider
+                                          : AssetImage("assets/imgs/profile.png"),
+                                      backgroundColor: Colors.white,
+                                      radius: 50,
+                                    ),
                                   ),
-                                  onTap: (){
+                                  onTap: () {
                                     pickImage(ImageSource.gallery);
                                   },
                                 ),
+
 
                                 SizedBox(height: 15,),
 
@@ -408,7 +455,29 @@ class _ProfileState extends State<Profile> {
                                     ),
                                   ),
                                 ),
+                                SizedBox(height: 15,),
 
+                                Center(
+                                  child: SizedBox(
+                                    width: 335,
+                                    height: 55,
+
+                                    child: ElevatedButton(
+                                      onPressed: (){
+                                        logOut();
+                                      },
+                                      child: Text("Logout",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20
+                                        ),),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           );

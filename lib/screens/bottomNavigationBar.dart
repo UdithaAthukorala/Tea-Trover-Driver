@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:tea_trover_driver/screens/profile.dart';
+import 'package:tea_trover_driver/screens/profile.dart';
 import '../controllers/controllers.dart';
 import '../global.dart';
 import '../models/user_models.dart';
 import 'homeScreen.dart';
-import 'profile.dart';
 
 class Bottomnavigationbarscreen extends StatefulWidget {
   const Bottomnavigationbarscreen({super.key});
@@ -26,19 +27,19 @@ class _BottomnavigationbarState extends State<Bottomnavigationbarscreen> {
 
   Future<void> loadFirebaseData()async{
     var snap = await Controllers().readCurrentOnlineUserInfo();
-      if(snap.snapshot.value!=null){
-        userModelCurrrentInfo = usermodel.fromSnapshot(snap.snapshot);
-      }
+    if(snap.snapshot.value!=null){
+      userModelCurrrentInfo = usermodel.fromSnapshot(snap.snapshot);
+    }
   }
-  
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     firebaseDataLoader = loadFirebaseData();
   }
-  
-  
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,12 +57,12 @@ class _BottomnavigationbarState extends State<Bottomnavigationbarscreen> {
           else if(snapshot.hasError){
             return Center(
               child: Text(
-                "Data Error"
+                  "Data Error"
               ),
             );
           }
           else{
-           return Center(
+            return Center(
               child: widgets.elementAt(current_index),
             );
           }
@@ -70,41 +71,41 @@ class _BottomnavigationbarState extends State<Bottomnavigationbarscreen> {
 
       bottomNavigationBar:Container(
         color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(5),
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Color.fromRGBO(255, 199, 0, 1),
-                  borderRadius: BorderRadius.circular(35)
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GNav(
-                    backgroundColor: Colors.transparent,
-                    rippleColor: Colors.grey[300]!,
-                    hoverColor: Colors.grey[100]!,
-                    gap: 8,
-                    activeColor: Colors.black,
-                    iconSize: 24,
-                    haptic: true,
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                    duration: Duration(milliseconds: 400),
-                    tabActiveBorder: Border.all(color: Colors.white),
+        child: Padding(
+          padding: const EdgeInsets.all(5),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Color.fromRGBO(255, 199, 0, 1),
+                borderRadius: BorderRadius.circular(35)
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GNav(
+                backgroundColor: Colors.transparent,
+                rippleColor: Colors.grey[300]!,
+                hoverColor: Colors.grey[100]!,
+                gap: 8,
+                activeColor: Colors.black,
+                iconSize: 24,
+                haptic: true,
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                duration: Duration(milliseconds: 400),
+                tabActiveBorder: Border.all(color: Colors.white),
                 tabs: [
-                    GButton(icon: Icons.dashboard,text: "Dashboard",),
-                    GButton(icon: Icons.supervised_user_circle,text: "Profile",),
-                  ],
-                    color: Colors.white,
-                    selectedIndex: current_index,
-                    onTabChange: (index){
-                    setState(() {
-                      current_index = index;
-                    });
-                    },
-                  ),
+                  GButton(icon: Icons.qr_code,text: "QR",),
+                  GButton(icon: Icons.supervised_user_circle,text: "Profile",),
+                ],
+                color: Colors.white,
+                selectedIndex: current_index,
+                onTabChange: (index){
+                  setState(() {
+                    current_index = index;
+                  });
+                },
               ),
             ),
           ),
+        ),
       ),
     );
   }

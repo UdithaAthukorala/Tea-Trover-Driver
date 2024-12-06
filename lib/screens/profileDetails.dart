@@ -37,7 +37,6 @@ class _ProfiledetailsState extends State<Profiledetails> {
   }
 
   void submit() async{
-
     if(formkey.currentState!.validate()){
       showDialog(
           barrierDismissible: false,
@@ -48,7 +47,8 @@ class _ProfiledetailsState extends State<Profiledetails> {
         String? profilePhotoUrl;
 
         if (_profilePhoto != null) {
-          profilePhotoUrl = await Controllers.uploadImage(_profilePhoto!, "drivers/${widget.currentUser!.uid}/profile_photo.jpg");
+          profilePhotoUrl = await Controllers.uploadImage(
+              _profilePhoto!, "drivers/${widget.currentUser!.uid}/profile_photo.jpg");
         }
         else{
           Navigator.pop(context);
@@ -69,13 +69,17 @@ class _ProfiledetailsState extends State<Profiledetails> {
 
           userRef.child(widget.currentUser!.uid).set(userMap).then((onValue) async {
             Fluttertoast.showToast(msg: "Welcome ${nameTextEdittingcont.text.trim()}");
-            Navigator.pop(context);
-            Navigator.push(context, MaterialPageRoute(builder: (c) => Bottomnavigationbarscreen()));
-
-          }).catchError((error){
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Bottomnavigationbarscreen(),
+              ),
+                  (route) => false,
+            );
+          }).catchError((error) {
             Navigator.pop(context);
             Fluttertoast.showToast(msg: "Verification error");
-            print("Error ocured : $error");
+            print("Error occurred: $error");
           });
         }else{
           Navigator.pop(context);
@@ -125,10 +129,7 @@ class _ProfiledetailsState extends State<Profiledetails> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-
                         Align(alignment: Alignment.centerLeft,child: Text("Name",style: TextStyle(fontWeight: FontWeight.bold),)),
-
-                        
                         TextFormField(
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(50)
@@ -192,12 +193,8 @@ class _ProfiledetailsState extends State<Profiledetails> {
                             nameTextEdittingcont.text=text;
                           }),
                         ),
-
                         SizedBox(height: 25,),
-
-
                         Align(alignment: Alignment.centerLeft,child: Text("Email",style: TextStyle(fontWeight: FontWeight.bold),)),
-
                         TextFormField(
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(100)
@@ -268,9 +265,7 @@ class _ProfiledetailsState extends State<Profiledetails> {
                   ),
 
                   SizedBox(height: 25,),
-
                   Align(alignment: Alignment.centerLeft,child: Text("Profile picture",style: TextStyle(fontWeight: FontWeight.bold),)),
-
                   GestureDetector(
                     onTap: (){
                       pickImage(ImageSource.gallery);
@@ -280,9 +275,7 @@ class _ProfiledetailsState extends State<Profiledetails> {
                       backgroundImage: _profilePhoto != null?FileImage(_profilePhoto!):AssetImage("assets/imgs/profile.png"),
                     ),
                   ),
-
                   SizedBox(height: 100,),
-
                   Center(
                     child: SizedBox(
                       width: 335,

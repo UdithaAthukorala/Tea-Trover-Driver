@@ -1,5 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:tea_trover_driver/screens/AddingQ.dart';
+import 'package:tea_trover_driver/screens/CollectionDeatails.dart';
+import 'package:tea_trover_driver/screens/bottomNavigationBar.dart';
+import 'package:tea_trover_driver/screens/homeScreen.dart';
+import 'package:tea_trover_driver/screens/otpScreen.dart';
+import 'package:tea_trover_driver/screens/phoneNumberVerification.dart';
+import 'package:tea_trover_driver/screens/profile.dart';
+import 'package:tea_trover_driver/screens/profileDetails.dart';
 
 import 'screens/wrapper.dart';
 
@@ -30,7 +38,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Wrapper(),
+      home: Wrapper (),
     );
   }
 }
