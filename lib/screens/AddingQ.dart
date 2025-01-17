@@ -38,7 +38,7 @@ class _AddingScreenState extends State<AddingScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
-        title: const Text('Add Details'),
+        title: const Text('Add New Details'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
